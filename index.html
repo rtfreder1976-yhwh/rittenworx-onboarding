@@ -4,20 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onboarding | Rittenworx Handyman Services</title>
+    <title>Launch Portal | Singing River AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.4);
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.7);
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.1);
-            --accent: #38bdf8;
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            --success: #10b981;
         }
 
         * {
@@ -30,566 +31,708 @@
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg);
             background-image:
-                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+                radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
             color: var(--text);
-            line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 3rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .logo-placeholder {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 2.5rem 0 1.5rem;
-            display: flex;
-            align-items: center;
-            color: var(--accent);
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-            margin-left: 1rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group.full {
-            grid-column: span 2;
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #cbd5e1;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 0.75rem 1rem;
-            color: white;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-            background: rgba(15, 23, 42, 0.8);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            padding: 1rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .checkbox-group:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .checkbox-group input {
-            width: auto;
-            margin-top: 0.3rem;
-        }
-
-        .checkbox-label {
-            display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 1.5rem;
         }
 
-        .checkbox-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .checkbox-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        button.submit-btn {
-            width: 100%;
+        /* Particles/Background Decor */
+        .decor-blob {
+            position: fixed;
+            width: 400px;
+            height: 400px;
             background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 2rem;
-            transition: all 0.3s;
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+            filter: blur(120px);
+            opacity: 0.05;
+            z-index: -1;
+            border-radius: 50%;
         }
 
-        button.submit-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
-        }
-
-        .file-upload {
-            border: 2px dashed var(--border);
-            padding: 2rem;
+        /* Navbar/Header */
+        header {
+            position: fixed;
+            top: 2rem;
             text-align: center;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .file-upload:hover {
-            border-color: var(--primary);
-            background: rgba(37, 99, 235, 0.05);
-        }
-
-        /* Wizard Layout */
-        .progress-container {
             width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            margin: 1.5rem 0 1rem;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-wrapper {
+            max-width: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .progress-container {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
-            background: var(--accent);
-            width: 25%;
-            transition: width 0.4s ease;
-        }
-
-        .step-indicator {
-            font-size: 0.9rem;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .wizard-step {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .wizard-step.active {
-            display: block;
-        }
-
-        .step-desc {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .btn-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-            gap: 1rem;
-        }
-
-        button.next-btn {
             background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
+            box-shadow: 0 0 15px var(--primary-glow);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        button.next-btn:hover {
-            background: var(--primary-hover);
+        /* Wizard Cards */
+        .wizard-container {
+            position: relative;
+            max-width: 650px;
+            width: 100%;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        button.back-btn {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
+        .card {
+            position: absolute;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            font-weight: 600;
+            border-radius: 32px;
+            padding: 4rem 3rem;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        .card.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            z-index: 5;
+        }
+
+        .card.exit {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: #fff;
+        }
+
+        .field-desc {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            max-width: 90%;
+        }
+
+        /* Inputs */
+        .input-wrapper {
+            width: 100%;
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="url"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            color: white;
+            font-family: inherit;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+
+        /* Custom Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        button.back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        button.submit-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            flex: 1;
-            transition: all 0.3s;
-        }
-
-        button.submit-btn:hover {
-            background: #059669;
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--primary);
             transform: translateY(-2px);
         }
 
+        .option-btn.selected {
+            background: var(--primary);
+            color: #000;
+            font-weight: 600;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* File Upload Area */
+        .upload-zone {
+            width: 100%;
+            border: 2px dashed var(--border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .preview-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #222;
+        }
+
+        /* Buttons */
+        .controls {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button {
+            padding: 1.25rem 2.5rem;
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .keyboard-hint {
+            position: fixed;
+            bottom: 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        kbd {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-family: sans-serif;
+        }
+
+        /* Success/Loading UI */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+            }
+
+            80% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
         @media (max-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr;
+            h2 {
+                font-size: 1.6rem;
             }
 
-            .form-group.full {
-                grid-column: span 1;
-            }
-
-            .container {
-                padding: 1.5rem;
+            .card {
+                padding: 3rem 1.5rem;
             }
         }
     </style>
 </head>
 
 <body>
+    <div class="decor-blob" style="top: -10%; left: -10%;"></div>
+    <div class="decor-blob" style="bottom: -10%; right: -10%; background: #2563eb;"></div>
 
-    <div class="container">
-        <header>
-            <div class="logo-placeholder">SINGING RIVER AI</div>
-            <h1>Client Kickoff Portal</h1>
-            <p class="subtitle">Rittenworx Handyman Services | Visibility Essentials Onboarding</p>
-
+    <header>
+        <div class="logo">SINGING RIVER AI</div>
+        <div class="progress-wrapper">
+            <div class="progress-meta">
+                <span id="step-count">Step 1 of 11</span>
+                <span id="step-title">Business Hub</span>
+            </div>
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <div class="step-indicator" id="stepIndicator">Step 1 of 4: Business Identity</div>
-        </header>
+        </div>
+    </header>
 
-        <form id="onboardingForm">
-            <!-- STEP 1: BUSINESS IDENTITY -->
-            <div class="wizard-step active" id="step1">
-                <div class="section-title">Step 1: Business Identity Sync</div>
-                <p class="step-desc">This data will be pushed to 50+ directories. Precision is key.</p>
-
-                <div class="grid">
-                    <div class="form-group">
-                        <label for="bizName">Legal Business Name</label>
-                        <input type="text" id="bizName" value="Rittenworx Handyman Services">
-                    </div>
-                    <div class="form-group">
-                        <label for="bizPhone">Primary Business Phone (Visible Publicly)</label>
-                        <input type="tel" id="bizPhone" placeholder="(256) XXX-XXXX">
-                    </div>
-                    <div class="form-group full">
-                        <label for="bizAddress">Public Business Address (To verify Google Pin)</label>
-                        <input type="text" id="bizAddress" placeholder="Street, City, State, Zip">
-                    </div>
-                    <div class="form-group full">
-                        <label for="serviceAreas">Top 3 Priority Cities</label>
-                        <input type="text" id="serviceAreas" placeholder="e.g. Madison, Huntsville, Athens">
-                    </div>
-                </div>
-                <div class="btn-row">
-                    <button type="button" class="next-btn" onclick="nextStep(2)">Next: Technical Access &rarr;</button>
-                </div>
+    <div class="wizard-container" id="wizard">
+        <!-- WELCOME -->
+        <div class="card active" data-step="0">
+            <h2>Let's Launch Your Visibility Engine.</h2>
+            <p class="field-desc">We're about to sync your business to 50+ directories. This onboarding takes 3 minutes
+                and ensures everything is 100% accurate.</p>
+            <div class="controls">
+                <button class="btn-primary" onclick="nextCard()">Start Onboarding &rarr;</button>
             </div>
+        </div>
 
-            <!-- STEP 2: WEBSITE & HOSTING CREDENTIALS -->
-            <div class="wizard-step" id="step2">
-                <div class="section-title">Step 2: Website & DNS Access</div>
-                <p class="step-desc">We need this to install SEO tags, analytics pixels, and speed optimizations.</p>
-
-                <div class="form-group full">
-                    <label for="cmsPlatform">Website Platform</label>
-                    <select id="cmsPlatform">
-                        <option value="wordpress">WordPress (Most Likely)</option>
-                        <option value="wix">Wix</option>
-                        <option value="squarespace">Squarespace</option>
-                        <option value="gohighlevel">GoHighLevel</option>
-                        <option value="other">Other / I Don't Know</option>
-                    </select>
-                </div>
-
-                <div class="grid">
-                    <div class="form-group">
-                        <label for="loginUrl">Website Login URL</label>
-                        <input type="url" id="loginUrl" placeholder="e.g. rittenworx.net/wp-admin">
-                    </div>
-                    <div class="form-group">
-                        <label for="dnsProv">Domain Registrar (GoDaddy, Namecheap?)</label>
-                        <input type="text" id="dnsProv" placeholder="Where did you buy the domain?">
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username / Email</label>
-                        <input type="text" id="username" placeholder="admin@rittenworx.net">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="text" id="password" placeholder="Enter password securely">
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-top: 1rem;">
-                    <label>Security Note</label>
-                    <p style="font-size: 0.85rem; color: #94a3b8;">These credentials are encrypted in transit. You can
-                        also create a temporary admin user for us: <code>dev@singingriverai.com</code>.</p>
-                </div>
-
-                <div class="btn-row">
-                    <button type="button" class="back-btn" onclick="nextStep(1)">&larr; Back</button>
-                    <button type="button" class="next-btn" onclick="nextStep(3)">Next: Google Access &rarr;</button>
-                </div>
+        <!-- STEP 1: BIZ NAME -->
+        <div class="card" data-step="1">
+            <h2>Legal Business Name?</h2>
+            <p class="field-desc">This must exactly match your Google Business Profile & Registration.</p>
+            <div class="input-wrapper">
+                <input type="text" id="bizName" placeholder="e.g. Rittenworx Handyman Services" autofocus>
             </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
 
-            <!-- STEP 3: GOOGLE & REVIEWS -->
-            <div class="wizard-step" id="step3">
-                <div class="section-title">Step 3: Google Business Profile</div>
-                <p class="step-desc">Authorizing us to manage your posts, photos, and reviews.</p>
+        <!-- STEP 2: PHONE -->
+        <div class="card" data-step="2">
+            <h2>Primary Business Phone?</h2>
+            <p class="field-desc">The number customers will call. We'll use this for your listings.</p>
+            <div class="input-wrapper">
+                <input type="tel" id="bizPhone" placeholder="(256) 000-0000">
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <div class="checkbox-group" id="gbp-check" onclick="toggleCheck('gbp-check')">
-                        <input type="checkbox" id="gbpAccess">
-                        <div class="checkbox-label">
-                            <span class="checkbox-title">I have granted Manager Access</span>
-                            <span class="checkbox-desc">Please invite <code>admin@singingriverai.com</code> as a Manager
-                                to your Google Business Profile.</span>
-                        </div>
-                    </div>
+        <!-- STEP 3: ADDRESS -->
+        <div class="card" data-step="3">
+            <h2>Business Address?</h2>
+            <p class="field-desc">Full address for your Google Map pin placement. Include Suit/Apt.</p>
+            <div class="input-wrapper">
+                <input type="text" id="bizAddress" placeholder="123 AI Lane, Madison, AL, 35758">
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
+
+        <!-- STEP 4: CITIES -->
+        <div class="card" data-step="4">
+            <h2>Priority Cities?</h2>
+            <p class="field-desc">List the top 3 cities where you want more leads.</p>
+            <div class="input-wrapper">
+                <input type="text" id="serviceAreas" placeholder="e.g. Madison, Huntsville, Decatur">
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
+
+        <!-- STEP 5: PLATFORM -->
+        <div class="card" data-step="5">
+            <h2>Website Platform?</h2>
+            <p class="field-desc">Where is your current site hosted?</p>
+            <div class="options-grid" id="platformOptions">
+                <div class="option-btn" onclick="selectOption('cmsPlatform', 'wordpress', this)">
+                    <span>WordPress</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="reviewLink">Current Google Review Link (If known)</label>
-                    <input type="text" id="reviewLink" placeholder="https://g.page/r/...">
-                    <p style="font-size: 0.8rem; margin-top: 5px; color: #fff;">(Leave blank if you want us to
-                        find/generate this for you)</p>
+                <div class="option-btn" onclick="selectOption('cmsPlatform', 'gohighlevel', this)">
+                    <span>GoHighLevel</span>
                 </div>
-
-                <div class="btn-row">
-                    <button type="button" class="back-btn" onclick="nextStep(2)">&larr; Back</button>
-                    <button type="button" class="next-btn" onclick="nextStep(4)">Next: Photos & Assets &rarr;</button>
+                <div class="option-btn" onclick="selectOption('cmsPlatform', 'wix', this)">
+                    <span>Wix / Squarespace</span>
+                </div>
+                <div class="option-btn" onclick="selectOption('cmsPlatform', 'other', this)">
+                    <span>Other</span>
                 </div>
             </div>
+            <input type="hidden" id="cmsPlatform">
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
 
-            <!-- STEP 4: ASSETS & SUBMIT -->
-            <div class="wizard-step" id="step4">
-                <div class="section-title">Step 4: Project Photos</div>
-                <p class="step-desc">The fuel for your local ranking engine. Before & Afters are gold.</p>
+        <!-- STEP 6: TECH ACCESS -->
+        <div class="card" data-step="6">
+            <h2>Login Details</h2>
+            <p class="field-desc" style="margin-bottom: 1rem;">Provide URLs and access for SEO & Pixel installation.</p>
+            <div class="input-wrapper" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <input type="url" id="loginUrl" placeholder="Login URL (e.g. site.com/wp-admin)">
+                <input type="text" id="username" placeholder="Username / Email">
+                <input type="text" id="password" placeholder="Password (Securely Encrypted)">
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
 
-                <div class="file-upload" id="file-upload-zone">
-                    <input type="file" id="projectPhotos" multiple style="display: none;">
-                    <p style="color: var(--text-muted); font-size: 0.9rem;" id="file-count">Click to select files or
-                        drag and drop your best 10-20 work photos here.</p>
-                    <p style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--accent);">Focus on: Drywall,
-                        Flooring, and Carpentry.</p>
-                </div>
+        <!-- STEP 7: DNS -->
+        <div class="card" data-step="7">
+            <h2>Domain Registrar?</h2>
+            <p class="field-desc">Where did you buy your domain? (GoDaddy, Namecheap, etc.)</p>
+            <div class="input-wrapper">
+                <input type="text" id="dnsProv" placeholder="e.g. GoDaddy">
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
 
-                <div class="form-group full" style="margin-top:2rem;">
-                    <label for="notes">Final Notes for the Team</label>
-                    <textarea id="notes" rows="3"
-                        placeholder="Anything else we should know before we start?"></textarea>
-                </div>
-
-                <div class="btn-row">
-                    <button type="button" class="back-btn" onclick="nextStep(3)">&larr; Back</button>
-                    <button type="submit" class="submit-btn" id="submitBtn">Finish & Launch 🚀</button>
+        <!-- STEP 8: GBP ACCESS -->
+        <div class="card" data-step="8">
+            <h2>Google Business Access</h2>
+            <p class="field-desc">Invite <b>admin@singingriverai.com</b> as a Manager to your Google Business Profile.
+            </p>
+            <div class="options-grid">
+                <div class="option-btn" id="gbpDone" onclick="this.classList.toggle('selected');">
+                    <span>I've Sent the Invite ✓</span>
                 </div>
             </div>
-        </form>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
+
+        <!-- STEP 9: REVIEW LINK -->
+        <div class="card" data-step="9">
+            <h2>Review Link?</h2>
+            <p class="field-desc">Paste your current Google Review link. Leave blank if you want us to create one.</p>
+            <div class="input-wrapper">
+                <input type="url" id="reviewLink" placeholder="https://g.page/r/...">
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Continue</button>
+            </div>
+        </div>
+
+        <!-- STEP 10: PHOTOS -->
+        <div class="card" data-step="10">
+            <h2>Project Assets</h2>
+            <p class="field-desc">Upload 5-10 high-quality 'Before & After' photos of your work.</p>
+            <div class="upload-zone" id="dropzone">
+                <span style="font-size: 2rem;">📁</span>
+                <span>Click or Drag Photos Here</span>
+                <input type="file" id="projectPhotos" multiple class="hidden" accept="image/*">
+                <div class="preview-grid" id="previewGrid"></div>
+            </div>
+            <div class="controls" style="margin-top: 2rem;">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" onclick="nextCard()">Almost Done</button>
+            </div>
+        </div>
+
+        <!-- STEP 11: NOTES -->
+        <div class="card" data-step="11">
+            <h2>Final Notes</h2>
+            <p class="field-desc">Anything else our strategy team should know about your business goals?</p>
+            <div class="input-wrapper">
+                <textarea id="notes" rows="3" placeholder="Special requests, competitors, etc."></textarea>
+            </div>
+            <div class="controls">
+                <button class="btn-secondary" onclick="prevCard()">&larr;</button>
+                <button class="btn-primary" id="finalizeBtn" onclick="submitForm()">Launch 🚀</button>
+            </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="card" id="successCard">
+            <div class="success-icon">✓</div>
+            <h2>Mission Control Activated.</h2>
+            <p class="field-desc">Your kickoff data is syncing. The Singing River AI team will contact you within 24
+                hours with your first audit.</p>
+            <div class="controls">
+                <button class="btn-secondary" onclick="location.reload()">Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="keyboard-hint">
+        Press <kbd>Enter</kbd> to proceed
     </div>
 
     <script>
-        // Simple state management
-        let currentStep = 1;
+        let currentStep = 0;
+        const totalSteps = 11;
+        const progressBar = document.getElementById('progress-bar');
+        const stepCountText = document.getElementById('step-count');
+        const stepTitleText = document.getElementById('step-title');
+        const cards = document.querySelectorAll('.card');
 
-        function nextStep(step) {
-            // Validate step 1 before moving to 2
-            if (currentStep === 1 && step === 2) {
-                const name = document.getElementById('bizName').value;
-                const phone = document.getElementById('bizPhone').value;
-                if (!name || !phone) {
-                    alert('Please complete the critical business info first.');
-                    return;
-                }
+        const stepThemes = [
+            "Welcome", "Identity", "Contact", "Location", "Market",
+            "Platform", "Access", "DNS", "Google", "Reviews", "Assets", "Finalize"
+        ];
+
+        function updateProgress() {
+            const percent = (currentStep / totalSteps) * 100;
+            progressBar.style.width = percent + '%';
+            stepCountText.innerText = `Step ${currentStep} of ${totalSteps}`;
+            stepTitleText.innerText = stepThemes[currentStep] || "Launch";
+        }
+
+        function nextCard() {
+            if (currentStep >= totalSteps) return;
+
+            // Basic validation
+            if (currentStep === 1 && !document.getElementById('bizName').value) {
+                alert("Please enter your business name."); return;
             }
 
-            // Update UI
-            document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
-            document.getElementById('step' + step).classList.add('active');
+            const activeCard = document.querySelector('.card.active');
+            activeCard.classList.add('exit');
 
-            // Update Progress
-            const percentages = { 1: '25%', 2: '50%', 3: '75%', 4: '100%' };
-            document.getElementById('progressBar').style.width = percentages[step];
+            setTimeout(() => {
+                activeCard.classList.remove('active', 'exit');
+                currentStep++;
+                const newCard = document.querySelector(`.card[data-step="${currentStep}"]`);
+                newCard.classList.add('active');
 
-            // Update Text
-            const titles = {
-                1: 'Business Identity',
-                2: 'Website Access',
-                3: 'Google Profile',
-                4: 'Photos & Assets'
-            };
-            document.getElementById('stepIndicator').innerText = `Step ${step} of 4: ${titles[step]}`;
+                // Focus first input
+                const input = newCard.querySelector('input, textarea');
+                if (input) input.focus();
 
-            currentStep = step;
-            window.scrollTo(0, 0);
+                updateProgress();
+            }, 300);
         }
 
-        function toggleCheck(id) {
-            const el = document.getElementById(id).querySelector('input');
-            el.checked = !el.checked;
+        function prevCard() {
+            if (currentStep <= 0) return;
+
+            const activeCard = document.querySelector('.card.active');
+            activeCard.classList.remove('active');
+
+            currentStep--;
+            const newCard = document.querySelector(`.card[data-step="${currentStep}"]`);
+            newCard.classList.add('active');
+            updateProgress();
         }
 
-        document.getElementById('file-upload-zone').addEventListener('click', () => {
-            document.getElementById('projectPhotos').click();
-        });
+        function selectOption(id, val, el) {
+            document.getElementById(id).value = val;
+            const siblings = el.parentElement.querySelectorAll('.option-btn');
+            siblings.forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            setTimeout(nextCard, 400); // Auto proceed
+        }
 
-        document.getElementById('projectPhotos').addEventListener('change', function (e) {
-            const count = e.target.files.length;
-            document.getElementById('file-count').innerText = count > 0 ? `${count} files selected` : 'Drag and drop your best 10-20 work photos here.';
-        });
+        // File handling
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('projectPhotos');
+        const previewGrid = document.getElementById('previewGrid');
 
-        document.getElementById('onboardingForm').addEventListener('submit', async function (e) {
+        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const originalBtnText = btn.innerHTML;
-            btn.innerHTML = 'Sending...';
-            btn.style.opacity = '0.7';
+            dropzone.classList.add('dragover');
+        });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            fileInput.files = e.dataTransfer.files;
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+            previewGrid.innerHTML = '';
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-item';
+                    previewGrid.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard && activeCard.dataset.step != "11") {
+                    e.preventDefault();
+                    nextCard();
+                }
+            }
+        });
+
+        async function submitForm() {
+            const btn = document.getElementById('finalizeBtn');
+            btn.innerHTML = "Syncing...";
             btn.disabled = true;
 
-            // Create FormData object directly from the form
-            // This automatically handles text inputs and files (multipart/form-data)
             const formData = new FormData();
-
-            // Manually append fields to ensure we get IDs we expect if name attributes are missing
             formData.append('businessName', document.getElementById('bizName').value);
             formData.append('businessPhone', document.getElementById('bizPhone').value);
             formData.append('businessAddress', document.getElementById('bizAddress').value);
             formData.append('serviceAreas', document.getElementById('serviceAreas').value);
             formData.append('websitePlatform', document.getElementById('cmsPlatform').value);
             formData.append('websiteLoginUrl', document.getElementById('loginUrl').value);
-            formData.append('dnsProvider', document.getElementById('dnsProv').value);
             formData.append('username', document.getElementById('username').value);
             formData.append('password', document.getElementById('password').value);
-            formData.append('gbpAccessHelper', document.getElementById('gbpAccess').checked);
+            formData.append('dnsProvider', document.getElementById('dnsProv').value);
+            formData.append('gbpAccessSent', document.getElementById('gbpDone').classList.contains('selected'));
             formData.append('currentReviewLink', document.getElementById('reviewLink').value);
             formData.append('finalNotes', document.getElementById('notes').value);
             formData.append('submissionDate', new Date().toISOString());
 
-            // Append files
-            const files = document.getElementById('projectPhotos').files;
+            const files = fileInput.files;
             for (let i = 0; i < files.length; i++) {
                 formData.append('photos', files[i]);
             }
 
             try {
-                // Send to n8n Webhook as Multipart/Form-Data
-                // note: not setting Content-Type header so browser sets duplicate boundary automatically
                 const response = await fetch('https://singingriver.app.n8n.cloud/webhook/submit-onboarding', {
                     method: 'POST',
                     body: formData
                 });
 
                 if (response.ok) {
-                    alert('Success! We have received your kickoff data. The Singing River AI team is now starting your setup.');
-                    btn.innerHTML = 'All Set! ✓';
-                    btn.style.background = '#10b981';
+                    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+                    document.getElementById('successCard').classList.add('active');
                 } else {
-                    throw new Error('Submission failed');
+                    throw new Error('Sync failed');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('We saved your data locally, but there was an issue sending it to our server. Please screenshot this page or contact us.');
-                btn.innerHTML = 'Saved locally (Error sending)';
-                btn.style.background = '#e11d48';
+            } catch (err) {
+                console.error(err);
+                alert("Network error. Your progress is saved, but we couldn't reach the server. Please try again.");
+                btn.innerHTML = "Retry Launch 🚀";
                 btn.disabled = false;
             }
-        });
+        }
     </script>
 </body>
 
