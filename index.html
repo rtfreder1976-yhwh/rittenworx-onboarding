@@ -65,14 +65,14 @@
         }
 
         .logo {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .progress-wrapper {
@@ -84,11 +84,12 @@
         .progress-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 1rem;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
         .progress-container {
@@ -393,8 +394,8 @@
         <!-- WELCOME -->
         <div class="card active" data-step="0">
             <h2>Let's Launch Your Visibility Engine.</h2>
-            <p class="field-desc">We're about to sync your business to 50+ directories. This onboarding takes 3 minutes
-                and ensures everything is 100% accurate.</p>
+            <p class="field-desc">This quick onboarding takes about 3 minutes and ensures everything is 100% accurate.
+            </p>
             <div class="controls">
                 <button class="btn-primary" onclick="nextCard()">Start Onboarding &rarr;</button>
             </div>
@@ -516,7 +517,8 @@
                 Open Google Business Profile →
             </a>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Click above, then go to
-                <b>Users</b> → <b>Add User</b> → Enter the email above as Manager</p>
+                <b>Users</b> → <b>Add User</b> → Enter the email above as Manager
+            </p>
             <div class="options-grid">
                 <div class="option-btn" id="gbpDone" onclick="this.classList.toggle('selected');">
                     <span>I've Added the Manager ✓</span>
