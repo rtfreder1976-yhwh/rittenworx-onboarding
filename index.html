@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --primary: #38bdf8;
@@ -569,58 +567,15 @@
         <div class="card" id="successCard">
             <div class="success-icon">✓</div>
             <h2>Mission Control Activated.</h2>
-            <p class="field-desc">Your kickoff data is syncing. Your <b>Kickoff Summary PDF</b> has been generated and
-                sent to our team.</p>
+            <p class="field-desc">Your kickoff data has been successfully submitted and sent to our team. We'll be in touch soon!</p>
             <div class="controls" style="flex-direction: column; width: 100%;">
-                <button class="btn-primary" id="downloadSummaryBtn" style="width: 100%;">
-                    Download Kickoff Summary (PDF)
-                </button>
-                <button class="btn-secondary" onclick="location.reload()" style="width: 100%; margin-top: 1rem;">
+                <button class="btn-primary" onclick="location.reload()" style="width: 100%;">
                     Back to Portal
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- HIDDEN PDF TEMPLATE -->
-    <div id="pdf-template"
-        style="position: absolute; left: -9999px; width: 800px; padding: 40px; background: #fff; color: #000; font-family: 'Outfit', sans-serif;">
-        <div style="text-align: center; border-bottom: 2px solid #38bdf8; padding-bottom: 20px; margin-bottom: 30px;">
-            <h1 style="margin: 0; color: #030712;">Singing River AI</h1>
-            <p style="margin: 5px 0; color: #64748b; text-transform: uppercase; letter-spacing: 2px;">Visibility
-                Essentials | Kickoff Summary</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
-            <div>
-                <h3 style="color: #38bdf8; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">Business Identity
-                </h3>
-                <p><strong>Name:</strong> <span id="pdf-bizName"></span></p>
-                <p><strong>Phone:</strong> <span id="pdf-bizPhone"></span></p>
-                <p><strong>Address:</strong> <span id="pdf-bizAddress"></span></p>
-                <p><strong>Service Areas:</strong> <span id="pdf-serviceAreas"></span></p>
-            </div>
-            <div>
-                <h3 style="color: #38bdf8; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">Technical Details
-                </h3>
-                <p><strong>Platform:</strong> <span id="pdf-platform"></span></p>
-                <p><strong>Login URL:</strong> <span id="pdf-loginUrl"></span></p>
-                <p><strong>DNS Registrar:</strong> <span id="pdf-dns"></span></p>
-            </div>
-        </div>
-
-        <div style="margin-bottom: 30px;">
-            <h3 style="color: #38bdf8; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">Project Notes</h3>
-            <p id="pdf-notes"
-                style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #38bdf8; min-height: 50px;">
-            </p>
-        </div>
-
-        <div
-            style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
-            This document confirms the receipt of onboarding assets by Singing River AI on <span id="pdf-date"></span>.
-        </div>
-    </div>
 
     <div class="keyboard-hint">
         Press <kbd>Enter</kbd> to proceed
@@ -738,44 +693,10 @@
 
         async function submitForm() {
             const btn = document.getElementById('finalizeBtn');
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = "Generating PDF...";
+            btn.innerHTML = "Submitting...";
             btn.disabled = true;
 
-            // Update PDF Template Fields
-            document.getElementById('pdf-bizName').innerText = document.getElementById('bizName').value;
-            document.getElementById('pdf-bizPhone').innerText = document.getElementById('bizPhone').value;
-            document.getElementById('pdf-bizAddress').innerText = document.getElementById('bizAddress').value;
-            document.getElementById('pdf-serviceAreas').innerText = document.getElementById('serviceAreas').value;
-            document.getElementById('pdf-platform').innerText = document.getElementById('cmsPlatform').value;
-            document.getElementById('pdf-loginUrl').innerText = document.getElementById('loginUrl').value;
-            document.getElementById('pdf-dns').innerText = document.getElementById('dnsProv').value;
-            document.getElementById('pdf-notes').innerText = document.getElementById('notes').value || "No additional notes provided.";
-            document.getElementById('pdf-date').innerText = new Date().toLocaleString();
-
-            const pdfTemplate = document.getElementById('pdf-template');
-
             try {
-                // Generate PDF Blob
-                const canvas = await html2canvas(pdfTemplate, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false
-                });
-
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgData = canvas.toDataURL('image/png');
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                const pdfBlob = pdf.output('blob');
-                const pdfFileName = `Kickoff_Summary_${document.getElementById('bizName').value.replace(/\s+/g, '_')}.pdf`;
-
-                btn.innerHTML = "Syncing Data...";
-
                 // Build FormData
                 const formData = new FormData();
                 formData.append('businessName', document.getElementById('bizName').value);
@@ -792,9 +713,6 @@
                 formData.append('finalNotes', document.getElementById('notes').value);
                 formData.append('submissionDate', new Date().toISOString());
 
-                // Add PDF to submission
-                formData.append('summaryPdf', pdfBlob, pdfFileName);
-
                 const files = fileInput.files;
                 for (let i = 0; i < files.length; i++) {
                     formData.append('photos', files[i]);
@@ -808,17 +726,12 @@
                 if (response.ok) {
                     document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
                     document.getElementById('successCard').classList.add('active');
-
-                    // Wire up download button
-                    document.getElementById('downloadSummaryBtn').onclick = () => {
-                        pdf.save(pdfFileName);
-                    };
                 } else {
-                    throw new Error('Sync failed');
+                    throw new Error('Submission failed');
                 }
             } catch (err) {
                 console.error(err);
-                alert("Generation failed. Please check your data and try again.");
+                alert("Submission failed. Please check your data and try again.");
                 btn.innerHTML = "Retry Launch 🚀";
                 btn.disabled = false;
             }
