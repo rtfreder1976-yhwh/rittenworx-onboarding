@@ -371,6 +371,73 @@
                 padding: 3rem 1.5rem;
             }
         }
+
+        /* Confetti Animation */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+        }
+
+        .confetti.active {
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100%) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* City Tags */
+        .city-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .city-tag {
+            background: var(--primary);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .city-tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .city-count {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+        }
     </style>
 </head>
 
@@ -431,9 +498,14 @@
         <!-- STEP 3: ADDRESS -->
         <div class="card" data-step="3">
             <h2>Business Address?</h2>
-            <p class="field-desc">Full address for your Google Map pin placement. Include Suit/Apt.</p>
-            <div class="input-wrapper">
-                <input type="text" id="bizAddress" placeholder="123 AI Lane, Madison, AL, 35758">
+            <p class="field-desc">Full address for your Google Map pin placement.</p>
+            <div class="input-wrapper" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <input type="text" id="bizStreet" placeholder="Street Address (e.g. 123 Main St)" required>
+                <div style="display: flex; gap: 0.75rem;">
+                    <input type="text" id="bizCity" placeholder="City" style="flex: 2;" required>
+                    <input type="text" id="bizState" placeholder="State" style="flex: 1;" maxlength="2" required>
+                </div>
+                <input type="text" id="bizZip" placeholder="ZIP Code" maxlength="10" required>
             </div>
             <div class="controls">
                 <button class="btn-secondary" onclick="prevCard()">&larr;</button>
@@ -443,10 +515,13 @@
 
         <!-- STEP 4: CITIES -->
         <div class="card" data-step="4">
-            <h2>Priority Cities?</h2>
-            <p class="field-desc">List the top 3 cities where you want more leads.</p>
+            <h2>Service Areas?</h2>
+            <p class="field-desc">Enter the cities where you want more leads (up to 3).</p>
             <div class="input-wrapper">
-                <input type="text" id="serviceAreas" placeholder="e.g. Madison, Huntsville, Decatur">
+                <input type="text" id="cityInput" placeholder="Type a city and press Enter" onkeydown="addCity(event)">
+                <div class="city-tags" id="cityTags"></div>
+                <p class="city-count" id="cityCount">0 of 3 cities added</p>
+                <input type="hidden" id="serviceAreas">
             </div>
             <div class="controls">
                 <button class="btn-secondary" onclick="prevCard()">&larr;</button>
@@ -561,10 +636,11 @@
 
         <!-- SUCCESS -->
         <div class="card" id="successCard">
+            <div class="confetti-container" id="confettiContainer"></div>
             <div class="success-icon">✓</div>
-            <h2>Mission Control Activated.</h2>
-            <p class="field-desc">Your kickoff data has been successfully submitted and sent to our team. We'll be in
-                touch soon!</p>
+            <h2>Onboarding Complete! 🎉</h2>
+            <p class="field-desc">Your information has been successfully submitted. Our team will be in touch within 24
+                hours to get started!</p>
             <div class="controls" style="flex-direction: column; width: 100%;">
                 <button class="btn-primary" onclick="location.reload()" style="width: 100%;">
                     Back to Portal
@@ -588,7 +664,7 @@
 
         const stepThemes = [
             "Welcome", "Identity", "Contact", "Location", "Market",
-            "Platform", "Access", "DNS", "Google", "Reviews", "Finalize"
+            "Platform", "Access", "DNS", "Google", "Reviews", "Complete!"
         ];
 
         function updateProgress() {
@@ -601,9 +677,24 @@
         function nextCard() {
             if (currentStep >= totalSteps) return;
 
-            // Basic validation
-            if (currentStep === 1 && !document.getElementById('bizName').value) {
+            // Validation
+            if (currentStep === 1 && !document.getElementById('bizName').value.trim()) {
                 alert("Please enter your business name."); return;
+            }
+            if (currentStep === 2 && !document.getElementById('bizPhone').value.trim()) {
+                alert("Please enter your business phone number."); return;
+            }
+            if (currentStep === 3) {
+                const street = document.getElementById('bizStreet').value.trim();
+                const city = document.getElementById('bizCity').value.trim();
+                const state = document.getElementById('bizState').value.trim();
+                const zip = document.getElementById('bizZip').value.trim();
+                if (!street || !city || !state || !zip) {
+                    alert("Please fill in all address fields."); return;
+                }
+            }
+            if (currentStep === 4 && selectedCities.length === 0) {
+                alert("Please add at least one service area city."); return;
             }
 
             const activeCard = document.querySelector('.card.active');
@@ -643,6 +734,66 @@
             setTimeout(nextCard, 400); // Auto proceed
         }
 
+        // City Tag Management
+        let selectedCities = [];
+
+        function addCity(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = document.getElementById('cityInput');
+                const city = input.value.trim();
+
+                if (city && selectedCities.length < 3 && !selectedCities.includes(city)) {
+                    selectedCities.push(city);
+                    updateCityDisplay();
+                    input.value = '';
+                } else if (selectedCities.length >= 3) {
+                    alert('Maximum 3 cities allowed');
+                } else if (selectedCities.includes(city)) {
+                    alert('City already added');
+                    input.value = '';
+                }
+            }
+        }
+
+        function removeCity(city) {
+            selectedCities = selectedCities.filter(c => c !== city);
+            updateCityDisplay();
+        }
+
+        function updateCityDisplay() {
+            const tagsContainer = document.getElementById('cityTags');
+            const countText = document.getElementById('cityCount');
+            const hiddenInput = document.getElementById('serviceAreas');
+
+            tagsContainer.innerHTML = selectedCities.map(city =>
+                `<span class="city-tag">${city} <span class="remove" onclick="removeCity('${city}')">×</span></span>`
+            ).join('');
+
+            countText.textContent = `${selectedCities.length} of 3 cities added`;
+            hiddenInput.value = selectedCities.join(', ');
+        }
+
+        // Confetti Animation
+        function launchConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#38bdf8', '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(confetti);
+
+                setTimeout(() => confetti.classList.add('active'), 10);
+            }
+
+            // Clean up after animation
+            setTimeout(() => container.innerHTML = '', 5000);
+        }
 
 
         // Keyboard navigation
@@ -666,7 +817,7 @@
                 const formData = new FormData();
                 formData.append('businessName', document.getElementById('bizName').value);
                 formData.append('businessPhone', document.getElementById('bizPhone').value);
-                formData.append('businessAddress', document.getElementById('bizAddress').value);
+                formData.append('businessAddress', `${document.getElementById('bizStreet').value}, ${document.getElementById('bizCity').value}, ${document.getElementById('bizState').value} ${document.getElementById('bizZip').value}`);
                 formData.append('serviceAreas', document.getElementById('serviceAreas').value);
                 formData.append('websitePlatform', document.getElementById('cmsPlatform').value);
                 formData.append('websiteLoginUrl', document.getElementById('loginUrl').value);
@@ -688,6 +839,7 @@
                 if (response.ok) {
                     document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
                     document.getElementById('successCard').classList.add('active');
+                    launchConfetti();
                 } else {
                     throw new Error('Submission failed');
                 }
